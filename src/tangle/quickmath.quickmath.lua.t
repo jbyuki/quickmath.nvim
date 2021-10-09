@@ -1,1 +1,0 @@
-C:\Users\Julien\fakeroot\code\nvimplugins\quickmath2\src\quickmath.lua.t
