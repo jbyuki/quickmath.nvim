@@ -30,6 +30,7 @@ vim.api.nvim_buf_attach(0, false, { on_lines = function(...)
 	@execute_lua_script
 	@parse_variables_definitions
 	@clear_virtual_text
+  @clear_virtual_text_store
 	@put_virtual_text_with_values
 	@put_error_msg_at_current_line_if_error
 end})
