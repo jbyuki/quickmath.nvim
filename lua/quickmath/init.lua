@@ -17,6 +17,7 @@ local function StartSession()
 	asin = math.asin
 	atan = math.atan
 
+
 	vnamespace = vim.api.nvim_create_namespace("quickmath")
 
 	vim.api.nvim_buf_attach(0, false, { on_lines = function(...)
@@ -68,6 +69,7 @@ local function StartSession()
 
 	vim.api.nvim_command("set ft=lua")
 
+  vim.cmd [[set buftype=nowrite]]
   vim.api.nvim_buf_set_keymap(0, "n", "$", "", { silent=true, callback=go_eol })
 
 end

@@ -13,10 +13,10 @@ return {
 local function StartSession()
 	@global_functions
 
-  @create_new_buffer
 	@create_virtual_text_namespace
 	@attach_callback_to_buffer
 	@setup_buffer_to_lua_filetype
+  @setup_buffer_as_no_need_to_save
   @bind_select_virtual_keymap
 end
 
@@ -110,3 +110,6 @@ log = math.log
 acos = math.acos
 asin = math.asin
 atan = math.atan
+
+@setup_buffer_as_no_need_to_save+=
+vim.cmd [[set buftype=nowrite]]
