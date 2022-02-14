@@ -17,6 +17,7 @@ local function StartSession()
 	@create_virtual_text_namespace
 	@attach_callback_to_buffer
 	@setup_buffer_to_lua_filetype
+  @bind_select_virtual_keymap
 end
 
 @export_symbols+=
@@ -77,6 +78,7 @@ for _,d in ipairs(def) do
 		local v = _G[d.name]
 		if type(v) == "number" then
 			vim.api.nvim_buf_set_virtual_text( 0, vnamespace, d.lnum-1, {{ tostring(v), "Special" }}, {})
+      @save_virt_text_pos
 		end
 		@if_complex_number_put_virtual_text
 		@if_matrix_put_virtual_text
@@ -95,6 +97,7 @@ end
 @if_complex_number_put_virtual_text+=
 if type(v) == "table" and v.is_complex then
 	vim.api.nvim_buf_set_virtual_text( 0, vnamespace, d.lnum-1, {{ tostring(v), "Special" }}, {})
+  @save_virt_text_pos
 end
 
 @global_functions+=
