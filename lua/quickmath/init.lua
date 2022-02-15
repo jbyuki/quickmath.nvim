@@ -101,7 +101,7 @@ function go_eol()
         local key = vim.fn.getchar()
         local c = string.char(key)
         if c == 'y' then
-          vim.api.nvim_command(("let @+=%s"):format(virt_texts[lnum]))
+          vim.api.nvim_command(([[let @+="%s"]]):format(tostring(virt_texts[lnum])))
         end
         vim.api.nvim_buf_clear_namespace(0, vnamespace, 0, -1)
 
