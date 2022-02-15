@@ -42,6 +42,12 @@ This means you can use functions which are available in the `math` module.
 Lists them using `:lua print(vim.inspect(math))`. 
 All the math module functions are put in global namespace when quickmath is initiated. So instead of writing `math.cos`, `cos` can be simply written.
 
+**Get that output**
+
+You can select the output by pressing `$` when at the end of the line, or `$$` anywhere else in the line.
+Then just `y`ank.
+
+
 Note
 ----
 
