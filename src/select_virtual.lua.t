@@ -1,6 +1,6 @@
 ##quickmath
 @bind_select_virtual_keymap+=
-vim.api.nvim_buf_set_keymap(0, "n", "$", "", { silent=true, callback=go_eol })
+vim.api.nvim_buf_set_keymap(0, "n", "$", [[:lua require"quickmath".go_eol()<CR>]], { silent=true })
 
 @declare_functions+=
 local go_eol
@@ -11,6 +11,9 @@ function go_eol()
   @if_not_go_eol
   @else_highlight_virtual_text_and_wait
 end
+
+@export_symbols+=
+go_eol = go_eol,
 
 @if_not_go_eol+=
 if not eol then
