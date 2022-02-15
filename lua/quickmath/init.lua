@@ -70,7 +70,7 @@ local function StartSession()
 	vim.api.nvim_command("set ft=lua")
 
   vim.cmd [[set buftype=nowrite]]
-  vim.api.nvim_buf_set_keymap(0, "n", "$", "", { silent=true, callback=go_eol })
+  vim.api.nvim_buf_set_keymap(0, "n", "$", ":QMSelectOutput<CR>", { silent=true })
 
 end
 
@@ -118,6 +118,7 @@ end
 
 return {
 StartSession = StartSession,
+go_eol = go_eol,
 
 }
 
