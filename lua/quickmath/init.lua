@@ -149,19 +149,6 @@ function vector:clone()
     return v
 end
 
-function vector:set(...)
-    -- Set the values of the vector
-    -- to the given values
-    if select("#", ...) ~= self.dim then
-        error("Vector dimension mismatch")
-    end
-    local v = {...}
-    for i = 1, self.dim do
-        self[i] = v[i]
-    end
-    return self
-end
-
 function vector:unpack()
     -- Return the values of the vector
     -- as a list of values
@@ -190,13 +177,10 @@ function vector:setmag(mag)
     -- Set the magnitude of the vector
     local magsq = self:magsq()
     if magsq == 0 then
-        return self
+        return self:clone()
     end
     local scale = mag / math.sqrt(magsq)
-    for i = 1, self.dim do
-        self[i] = self[i] * scale
-    end
-    return self
+    return self:scale(scale)
 end
 
 function vector:scale(s)
@@ -221,13 +205,14 @@ end
 function vector:norm()
     -- Normalize the vector
     local mag = self:mag()
+    local v = self:clone()
     if mag == 0 then
-        return self
+        return v
     end
     for i = 1, self.dim do
-        self[i] = self[i] / mag
+        v[i] = v[i] / mag
     end
-    return self
+    return v
 end
 
 function vector:dist(v)
@@ -258,19 +243,17 @@ function vector:limit(max)
     -- Limit the magnitude of the vector
     local magsq = self:magsq()
     if magsq > max * max then
-        self:setmag(max)
+        return self:clone():setmag(max)
     end
-    return self
+    return self:clone()
 end
 
 function vector:__unm()
     -- Return the negative of the vector
-    local v = {}
+    local v = self:clone()
     for i = 1, self.dim do
         v[i] = -self[i]
     end
-    v.dim = self.dim
-    setmetatable(v, vector)
     return v
 end
 
@@ -313,19 +296,6 @@ function vector:__mul(v)
     else
         return self:scale(v)
     end
-end
-
-function vector:__eq(v)
-    -- Check if two vectors are equal
-    if not vecmatch(self, v) then
-        return false
-    end
-    for i = 1, self.dim do
-        if self[i] ~= v[i] then
-            return false
-        end
-    end
-    return true
 end
 
 function vector:__tostring()
