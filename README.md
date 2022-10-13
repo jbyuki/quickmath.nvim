@@ -55,6 +55,16 @@ The vector it self implements a lot of functions and some operators the work on 
 Vectors are immutable so all functions and operations that returns a vector,
 returns a new vector.
 
+The vectors can be of any dimension but naturally doing operations on to vectors
+requires them to be of the same dimensionality.
+
+You can create a vector in one of three ways:
+```lua
+a = vec(1,2,3)
+b = vec({4,5,6})
+c = vec {7,8,9}
+```
+
 <details>
 <summary><h3>Functions</h3></summary>
 

@@ -124,8 +124,16 @@ function vec(...)
     -- Create a new vector
     -- with a given set of values
     -- and a dim of the number of values
-    local v = {...}
-    v.dim = select("#", ...)
+    local v = {}
+    local dim = 0
+    if type(...) == "table" then
+        v = ...
+        dim = #v
+    else
+        v = {...}
+        dim = select("#", ...)
+    end
+    v.dim = dim
     setmetatable(v, vector)
     return v
 end
