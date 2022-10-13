@@ -23,7 +23,7 @@ function vec(...)
 end
 
 @functions+=
-local function isvec(v)
+function isvec(v)
   return getmetatable(v) == vector
 end
 
@@ -218,6 +218,12 @@ function vector:__tostring()
   end
   s = s .. ")"
   return s
+end
+
+@if_vector_put_virtual_text+=
+if isvec(v) then
+  vim.api.nvim_buf_set_virtual_text( 0, vnamespace, d.lnum-1, {{ tostring(v), "Special" }}, {})
+  @save_virt_text_pos
 end
 
 @global_functions+=

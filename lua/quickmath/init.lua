@@ -61,6 +61,12 @@ local function StartSession()
 
 				end
 
+				if isvec(v) then
+				  vim.api.nvim_buf_set_virtual_text( 0, vnamespace, d.lnum-1, {{ tostring(v), "Special" }}, {})
+				  virt_texts[d.lnum] = tostring(v)
+
+				end
+
 			end
 		end
 
@@ -138,7 +144,7 @@ function vec(...)
   return v
 end
 
-local function isvec(v)
+function isvec(v)
   return getmetatable(v) == vector
 end
 
