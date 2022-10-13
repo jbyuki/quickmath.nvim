@@ -83,6 +83,7 @@ for _,d in ipairs(def) do
 		end
 		@if_complex_number_put_virtual_text
 		@if_matrix_put_virtual_text
+		@if_vector_put_virtual_text
 	end
 end
 
