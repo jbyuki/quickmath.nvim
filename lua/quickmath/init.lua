@@ -316,7 +316,7 @@ function vector:__tostring()
   -- Return a string representation of the vector
   local s = "("
   for i = 1, self.dim do
-    s = s .. self[i]
+    s = s .. tostring(self[i])
     if i ~= self.dim then
       s = s .. ", "
     end
