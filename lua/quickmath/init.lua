@@ -27,22 +27,49 @@ local function StartSession()
 	vim.api.nvim_buf_attach(0, false, { on_lines = function(...)
 		local content = vim.api.nvim_buf_get_lines(0, 0, -1, true)
 
-		local f, errmsg = loadstring(table.concat(content, "\n"))
-		local success
-		if not f then
-		else
-			success, errmsg = pcall(f)
-		end
+        local function get_result(line, anon)
+            local f, success, errmsg
+
+            if line == '' then
+                errmsg = ''
+            elseif string.find(line, "^anon%d+%s*=") and not anon then
+                errmsg = 'cannot manually assign to anonymous variable'
+            elseif string.find(line, "^%-%-.*$") then
+                -- comment
+            else
+		        f, errmsg = loadstring(line)
+		        if not f then
+		        else
+			        success, errmsg = pcall(f)
+		        end
+            end
+
+            return f, success, errmsg
+        end
 
 		local def = {}
+        local anon_n = 1
 		for i,line in ipairs(content) do
+            local name
+            local anon = false
+            local f, success, errmsg
+
 			if string.find(line, "^%w+%s*=") then
-				local name = string.match(line, "^(%w+)%s*=")
+				name = string.match(line, "^(%w+)%s*=")
 
-				table.insert(def, { lnum = i, name = name })
+                f, success, errmsg = get_result(line, false)
+            else
+                name = "anon" .. anon_n
+                anon = true
 
-			end
+                f, success, errmsg = get_result(name .. " = " .. line, anon)
+            end
 
+            table.insert(def, { lnum = i, name = name, errmsg = errmsg })
+
+            if success and anon then
+                anon_n = anon_n + 1
+            end
 		end
 
 		vim.api.nvim_buf_clear_namespace(0, vnamespace, 0, -1)
@@ -67,12 +94,10 @@ local function StartSession()
 
 				end
 
+                if d.errmsg and not string.find(d.errmsg, [[^%[string "anon%d+%s*=%s*"%]:%d+: unexpected symbol near '<eof>'$]]) then
+                    vim.api.nvim_buf_set_virtual_text( 0, vnamespace, d.lnum-1, {{ d.errmsg, "Special" }}, {})
+                end
 			end
-		end
-
-		if errmsg then
-			local lcur = vim.api.nvim_call_function("line", { "." }) - 1
-			vim.api.nvim_buf_set_virtual_text( 0, vnamespace, lcur, {{ errmsg, "Special" }}, {})
 		end
 
 	end})
@@ -94,7 +119,7 @@ function go_eol()
   if not eol then
     vim.api.nvim_win_set_cursor(0, { lnum, line:len() })
 
-  else 
+  else
     if virt_texts[lnum] then
       vim.api.nvim_buf_clear_namespace(0, vnamespace, 0, -1)
 
@@ -331,4 +356,3 @@ StartSession = StartSession,
 go_eol = go_eol,
 
 }
-
