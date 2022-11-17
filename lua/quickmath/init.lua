@@ -30,12 +30,8 @@ local function StartSession()
         local function get_result(line, anon)
             local f, success, errmsg
 
-            if line == '' then
-                errmsg = ''
-            elseif string.find(line, "^anon%d+%s*=") and not anon then
+            if string.find(line, "^anon%d+%s*=") and not anon then
                 errmsg = 'cannot manually assign to anonymous variable'
-            elseif string.find(line, "^%-%-.*$") then
-                -- comment
             else
 		        f, errmsg = loadstring(line)
 		        if not f then
@@ -54,21 +50,23 @@ local function StartSession()
             local anon = false
             local f, success, errmsg
 
-			if string.find(line, "^%w+%s*=") then
-				name = string.match(line, "^(%w+)%s*=")
+            if line ~= "" and not string.find(line, "^%-%-.*$") then
+                if string.find(line, "^%w+%s*=") then
+                    name = string.match(line, "^(%w+)%s*=")
 
-                f, success, errmsg = get_result(line, false)
-            else
-                name = "anon" .. anon_n
-                anon = true
+                    f, success, errmsg = get_result(line, false)
+                else
+                    name = "anon" .. anon_n
+                    anon = true
 
-                f, success, errmsg = get_result(name .. " = " .. line, anon)
-            end
+                    f, success, errmsg = get_result(name .. " = " .. line, anon)
+                end
 
-            table.insert(def, { lnum = i, name = name, errmsg = errmsg })
+                table.insert(def, { lnum = i, name = name, errmsg = errmsg })
 
-            if success and anon then
-                anon_n = anon_n + 1
+                if success and anon then
+                    anon_n = anon_n + 1
+                end
             end
 		end
 
