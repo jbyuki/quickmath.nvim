@@ -27,6 +27,7 @@ StartSession = StartSession,
 vim.api.nvim_buf_attach(0, false, { on_lines = function(...)
 	@init_graph_data
 	@get_buffer_content
+	@add_variable_assignement_to_anon
 	@execute_lua_script
 	@parse_variables_definitions
 	@clear_virtual_text
