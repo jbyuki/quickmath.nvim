@@ -3,8 +3,6 @@ local vnamespace
 
 local virt_texts = {}
 
-virt_texts = {}
-
 local vector = {}
 vector.__index = vector
 
@@ -24,8 +22,19 @@ local function StartSession()
 
 	vnamespace = vim.api.nvim_create_namespace("quickmath")
 
-	vim.api.nvim_buf_attach(0, false, { on_lines = function(...)
+	vim.api.nvim_buf_attach(0, false, { on_lines = vim.schedule_wrap(function(...)
 		local content = vim.api.nvim_buf_get_lines(0, 0, -1, true)
+
+		local anon_n = 1
+
+		for i, line in ipairs(content) do
+			local line = content[i]
+			if not string.find(line, "^%w+%s*=") and not string.find(line, "^%s*$") then
+				line = ("anon%d = %s"):format(anon_n, line)
+				anon_n = anon_n + 1
+			end
+			content[i] = line
+		end
 
 		local f, errmsg = loadstring(table.concat(content, "\n"))
 		local success
@@ -46,6 +55,8 @@ local function StartSession()
 		end
 
 		vim.api.nvim_buf_clear_namespace(0, vnamespace, 0, -1)
+
+	  virt_texts = {}
 
 		for _,d in ipairs(def) do
 			if _G[d.name] then
@@ -75,7 +86,7 @@ local function StartSession()
 			vim.api.nvim_buf_set_virtual_text( 0, vnamespace, lcur, {{ errmsg, "Special" }}, {})
 		end
 
-	end})
+	end)})
 
 	vim.api.nvim_command("set ft=lua")
 

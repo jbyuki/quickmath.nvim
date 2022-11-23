@@ -22,7 +22,7 @@ if not eol then
 @variables+=
 local virt_texts = {}
 
-@clear_virtual_text_store
+@clear_virtual_text_store+=
 virt_texts = {}
 
 @save_virt_text_pos+=
