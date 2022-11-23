@@ -29,7 +29,7 @@ local function StartSession()
 
 		for i, line in ipairs(content) do
 			local line = content[i]
-			if not string.find(line, "^%w+%s*=") and not string.find(line, "^%w*$") then
+			if not string.find(line, "^%w+%s*=") and not string.find(line, "^%s*$") then
 				line = ("anon%d = %s"):format(anon_n, line)
 				anon_n = anon_n + 1
 			end

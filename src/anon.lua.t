@@ -2,7 +2,7 @@
 @add_variable_assignement_to_anon+=
 for i, line in ipairs(content) do
 	local line = content[i]
-	if not string.find(line, "^%w+%s*=") and not string.find(line, "^%w*$") then
+	if not string.find(line, "^%w+%s*=") and not string.find(line, "^%s*$") then
 		@append_anon_variable_def
 	end
 	content[i] = line
