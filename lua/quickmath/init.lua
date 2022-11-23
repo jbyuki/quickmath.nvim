@@ -3,8 +3,6 @@ local vnamespace
 
 local virt_texts = {}
 
-virt_texts = {}
-
 local vector = {}
 vector.__index = vector
 
@@ -57,6 +55,8 @@ local function StartSession()
 		end
 
 		vim.api.nvim_buf_clear_namespace(0, vnamespace, 0, -1)
+
+	  virt_texts = {}
 
 		for _,d in ipairs(def) do
 			if _G[d.name] then
