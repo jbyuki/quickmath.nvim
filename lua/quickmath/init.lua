@@ -22,7 +22,7 @@ local function StartSession()
 
 	vnamespace = vim.api.nvim_create_namespace("quickmath")
 
-	vim.api.nvim_buf_attach(0, false, { on_lines = function(...)
+	vim.api.nvim_buf_attach(0, false, { on_lines = vim.schedule_wrap(function(...)
 		local content = vim.api.nvim_buf_get_lines(0, 0, -1, true)
 
 		local anon_n = 1
@@ -86,7 +86,7 @@ local function StartSession()
 			vim.api.nvim_buf_set_virtual_text( 0, vnamespace, lcur, {{ errmsg, "Special" }}, {})
 		end
 
-	end})
+	end)})
 
 	vim.api.nvim_command("set ft=lua")
 

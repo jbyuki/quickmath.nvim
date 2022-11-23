@@ -24,7 +24,7 @@ end
 StartSession = StartSession,
 
 @attach_callback_to_buffer+=
-vim.api.nvim_buf_attach(0, false, { on_lines = function(...)
+vim.api.nvim_buf_attach(0, false, { on_lines = vim.schedule_wrap(function(...)
 	@init_graph_data
 	@get_buffer_content
 	@add_variable_assignement_to_anon
@@ -34,7 +34,7 @@ vim.api.nvim_buf_attach(0, false, { on_lines = function(...)
   @clear_virtual_text_store
 	@put_virtual_text_with_values
 	@put_error_msg_at_current_line_if_error
-end})
+end)})
 
 @get_buffer_content+=
 local content = vim.api.nvim_buf_get_lines(0, 0, -1, true)
