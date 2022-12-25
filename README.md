@@ -229,4 +229,4 @@ The local plugin that I use has actually more functionnalities that I added prog
 Alternatives
 ------------
 
-* [qalc.nvim](https://github.com/Apeiros-46B/qalc.nvim) - Uses as a `qalc` as a backend.
+* [qalc.nvim](https://github.com/Apeiros-46B/qalc.nvim) - Uses `qalc` as a backend.
