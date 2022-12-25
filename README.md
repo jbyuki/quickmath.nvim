@@ -225,3 +225,8 @@ Note
 ----
 
 The local plugin that I use has actually more functionnalities that I added progressively when I needed them such as complex numbers, plots, bode plots, etc... They weren't added in this version because they need external installation but if there are request I can consider adding them with proper support.
+
+Alternatives
+------------
+
+* [qalc.nvim](https://github.com/Apeiros-46B/qalc.nvim) - Uses as a `qalc` as a backend.
