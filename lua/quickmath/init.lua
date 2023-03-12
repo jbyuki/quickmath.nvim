@@ -9,14 +9,9 @@ vector.__index = vector
 local go_eol
 
 local function StartSession()
-	cos = math.cos
-	sin = math.sin
-	tan = math.tan
-	exp = math.exp
-	log = math.log
-	acos = math.acos
-	asin = math.asin
-	atan = math.atan
+	for mod, fn in pairs(math) do
+		_G[mod] = fn
+	end
 
 	vec = vec
 

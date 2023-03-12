@@ -104,14 +104,9 @@ if type(v) == "table" and v.is_complex then
 end
 
 @global_functions+=
-cos = math.cos
-sin = math.sin
-tan = math.tan
-exp = math.exp
-log = math.log
-acos = math.acos
-asin = math.asin
-atan = math.atan
+for mod, fn in pairs(math) do
+	_G[mod] = fn
+end
 
 @setup_buffer_as_no_need_to_save+=
 vim.cmd [[set buftype=nowrite]]
