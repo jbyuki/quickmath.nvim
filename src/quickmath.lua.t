@@ -54,13 +54,13 @@ for i,line in ipairs(content) do
 end
 
 @check_if_line_is_definition+=
-if string.find(line, "^[A-Za-z0-9_]+%s*=") then
+if string.find(line, "^[A-Za-z_][A-Za-z0-9_]*%s*=") then
 	@get_variable_name
 	@add_to_definition_list
 end
 
 @get_variable_name+=
-local name = string.match(line, "^([A-Za-z0-9_]+)%s*=")
+local name = string.match(line, "^([A-Za-z_][A-Za-z0-9_]*)%s*=")
 
 @add_to_definition_list+=
 table.insert(def, { lnum = i, name = name })

@@ -24,7 +24,7 @@ local function StartSession()
 
 		for i, line in ipairs(content) do
 			local line = content[i]
-			if not string.find(line, "^[A-Za-z0-9_]+%s*=") and not string.find(line, "^%s*$") then
+			if not string.find(line, "^[A-Za-z_][A-Za-z0-9_]*%s*=") and not string.find(line, "^%s*$") then
 				line = ("anon%d = %s"):format(anon_n, line)
 				anon_n = anon_n + 1
 			end
@@ -40,8 +40,8 @@ local function StartSession()
 
 		local def = {}
 		for i,line in ipairs(content) do
-			if string.find(line, "^[A-Za-z0-9_]+%s*=") then
-				local name = string.match(line, "^([A-Za-z0-9_]+)%s*=")
+			if string.find(line, "^[A-Za-z_][A-Za-z0-9_]*%s*=") then
+				local name = string.match(line, "^([A-Za-z_][A-Za-z0-9_]*)%s*=")
 
 				table.insert(def, { lnum = i, name = name })
 
